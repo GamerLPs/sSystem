@@ -1,0 +1,12 @@
+name: s-System
+version: '${project.version}'
+main: de.Barryonixx.Main
+api-version: 1.17
+
+commands:
+  wetter:
+    aliases:
+      - weather
+  gm:
+    aliases:
+      - gamemode
