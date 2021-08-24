@@ -16,16 +16,15 @@ public final class Main extends JavaPlugin {
         getCommand("gamemode").setExecutor(new GAMEMODECOMMAND());
 
         /*
-        * Jetzt gibts aber 2 arten wie du weiterprogrammierst...
+        * So jetzt... sagen wir du codest jetzt hier den Commentar raus...
+        * Wenn du fertig bist, gehst du oben rechts auf den grünen hacken (Commit)
         *
-        * 1.Du machst ganz normal weiter (recht einfach)
+        * Dann oben links alle Datein auswählen...also mit dem hacken
+        * Dann da wo jetzt Commit message steht, kannst du schreiben was du gemacht hast...Am besten kurz
+        * Und dann einfach auf Commit and Push
+        * Wenn es fehler gibt, liegt das daran, weil intellij sagt, das der Javacode nicht gut aussieht...
+        * einfach auf Commit und Push nochmal klicken und dann auf Commit  & Push anyway
         *
-        * oder
-        *
-        * 2.Du machst einzelne "updates"deines Plugins (etwas komplizierter aber eleganter)
-        * Entscheide dich XD
-        *
-        * okay gleich
         * */
 
 
