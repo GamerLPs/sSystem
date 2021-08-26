@@ -18,7 +18,7 @@ public class CLEARCHATCOMMAND implements CommandExecutor {
                     for (int i = 0; i < 100; i++){
                         Bukkit.broadcastMessage("");
                     }
-                    Bukkit.broadcastMessage("§8| §c§lClearChat§8 » §7Chat wurde von §e"+player.getName()+ " §7gesäubert.");
+                    Bukkit.broadcastMessage("§8| §c§lClearChat§8 » §7§oChat wurde von §e§o"+player.getName()+ " §7§ogesäubert.");
 
                 }else{
                     player.sendMessage(Main.perm);
