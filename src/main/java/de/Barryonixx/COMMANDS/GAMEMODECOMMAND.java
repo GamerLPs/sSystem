@@ -23,7 +23,7 @@ public class GAMEMODECOMMAND implements CommandExecutor {
                     if ((args[0].equalsIgnoreCase("0")) || (args[0].equalsIgnoreCase("survival"))) {
                         if (p.hasPermission("system.gamemode.survival")) {
                             p.setGameMode(GameMode.SURVIVAL);
-                            p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§7» §7Du bist nun im §eSurvivalmodus§7!"));
+                            p.spigot() .sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§7» §7Du bist nun im §eSurvivalmodus§7!"));
                             //p.sendMessage("§7» §7Du bist nun im §eSurvivalmodus§7!");
                         } else {
                             p.sendMessage("§7» §7Du darfst den Survivalmodus nicht betreten!");
@@ -63,7 +63,6 @@ public class GAMEMODECOMMAND implements CommandExecutor {
                                 t.setGameMode(GameMode.SURVIVAL);
                                 t.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§7» Du wurdest in den §eSurvivalmodus §7gesetzt!"));
                                 //t.sendMessage("§7Du wurdest von §a" + p.getName() + " §7in den §eSurvivalmodus §7gesetzt!");
-
                                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§7» Du hast §a" + t.getName() + " §7in den §eSurvivalmodus §7gesetzt!"));
                                 //p.sendMessage("§7» Du hast §a" + t.getName() + " §7in den §eSurvivalmodus §7gesetzt!");
                             } else {
@@ -76,7 +75,7 @@ public class GAMEMODECOMMAND implements CommandExecutor {
                         if (p.hasPermission("system.gamemode.creative.other")) {
                             if (t != null) {
                                 t.setGameMode(GameMode.CREATIVE);
-                                t.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§7» Du wurdest in den §eKreativmodus §7gesetzt!"));
+                                //t.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§7» Du wurdest in den §eKreativmodus §7gesetzt!"));
                                 //t.sendMessage("§7Du wurdest von §a" + p.getName() + " §7in den §eKreativmodus §7gesetzt!");
                                 p.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§7» Du hast §a" + t.getName() + " §7in den §eKreativmodus §7gesetzt!"));
                                 //p.sendMessage("§7Du hast §a" + t.getName() + " §7in den §eKreativmodus §7gesetzt!");
