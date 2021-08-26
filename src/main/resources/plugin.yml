@@ -10,3 +10,8 @@ commands:
   gm:
     aliases:
       - gamemode
+  clearchat:
+    aliases:
+      - cc
+      - cchat
+      - chatclear

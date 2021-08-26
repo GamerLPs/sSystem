@@ -1,5 +1,6 @@
 package de.Barryonixx;
 
+import de.Barryonixx.COMMANDS.CLEARCHATCOMMAND;
 import de.Barryonixx.COMMANDS.GAMEMODECOMMAND;
 import de.Barryonixx.COMMANDS.WETTERCOMMAND;
 import de.Barryonixx.vault.Vaultmanager;
@@ -18,6 +19,7 @@ public final class Main extends JavaPlugin {
 
         getCommand("wetter").setExecutor(new WETTERCOMMAND());
         getCommand("gamemode").setExecutor(new GAMEMODECOMMAND());
+        getCommand("clearchat").setExecutor(new CLEARCHATCOMMAND());
 
 
         //LISTENERS
