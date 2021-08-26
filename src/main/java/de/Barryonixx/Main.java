@@ -19,8 +19,6 @@ public final class Main extends JavaPlugin {
         getCommand("wetter").setExecutor(new WETTERCOMMAND());
         getCommand("gamemode").setExecutor(new GAMEMODECOMMAND());
 
-        //
-
 
         //LISTENERS
         PluginManager PM = Bukkit.getPluginManager();
