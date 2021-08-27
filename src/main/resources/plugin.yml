@@ -10,6 +10,8 @@ commands:
   gm:
     aliases:
       - gamemode
+  pay:
+  money:
   clearchat:
     aliases:
       - cc

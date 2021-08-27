@@ -2,6 +2,8 @@ package de.Barryonixx;
 
 import de.Barryonixx.COMMANDS.CLEARCHATCOMMAND;
 import de.Barryonixx.COMMANDS.GAMEMODECOMMAND;
+import de.Barryonixx.COMMANDS.MoneyCommand;
+import de.Barryonixx.COMMANDS.PayCommand;
 import de.Barryonixx.COMMANDS.MESSAGECOMMAND;
 import de.Barryonixx.COMMANDS.WETTERCOMMAND;
 import de.Barryonixx.vault.Vaultmanager;
@@ -24,6 +26,9 @@ public final class Main extends JavaPlugin {
         getCommand("message").setExecutor(new MESSAGECOMMAND());
         getCommand("wetter").setExecutor(new WETTERCOMMAND());
         getCommand("gamemode").setExecutor(new GAMEMODECOMMAND());
+
+        //getCommand("money").setExecutor(new MoneyCommand());
+        getCommand("pay").setExecutor(new PayCommand());
         getCommand("clearchat").setExecutor(new CLEARCHATCOMMAND());
 
 
