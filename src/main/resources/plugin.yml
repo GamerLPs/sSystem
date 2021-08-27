@@ -15,3 +15,6 @@ commands:
       - cc
       - cchat
       - chatclear
+  message:
+    aliases:
+      - msg

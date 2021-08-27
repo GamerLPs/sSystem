@@ -2,11 +2,15 @@ package de.Barryonixx;
 
 import de.Barryonixx.COMMANDS.CLEARCHATCOMMAND;
 import de.Barryonixx.COMMANDS.GAMEMODECOMMAND;
+import de.Barryonixx.COMMANDS.MESSAGECOMMAND;
 import de.Barryonixx.COMMANDS.WETTERCOMMAND;
 import de.Barryonixx.vault.Vaultmanager;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
 
 public final class Main extends JavaPlugin {
     private Vaultmanager vaultmanager;
@@ -17,6 +21,7 @@ public final class Main extends JavaPlugin {
         //COMMANDS
         this.vaultmanager = new Vaultmanager();
 
+        getCommand("message").setExecutor(new MESSAGECOMMAND());
         getCommand("wetter").setExecutor(new WETTERCOMMAND());
         getCommand("gamemode").setExecutor(new GAMEMODECOMMAND());
         getCommand("clearchat").setExecutor(new CLEARCHATCOMMAND());
