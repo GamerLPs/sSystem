@@ -28,12 +28,28 @@ public class PayCommand implements CommandExecutor {
             player.sendMessage("§cDer Spieler wurde nicht gefunden!");
             return false;
         }
+
+        if(target == player){
+            player.sendMessage("§cDu kannst nicht an dich selbst überweisen!");
+            return false;
+        }
+
         int amount;
 
         try{
             amount = Integer.parseInt(args[1]);
         }catch(NumberFormatException e){
             player.sendMessage("§cBitte gebe eine gültige Zahl an!");
+            return false;
+        }
+
+        if(amount <= 0){
+            player.sendMessage("§cBitte gebe eine gültige Zahl an!");
+            return false;
+        }
+
+        if(Vaultmanager.getMoney(player) < amount){
+            player.sendMessage("§cDu hast nicht soviel Geld!");
             return false;
         }
 
