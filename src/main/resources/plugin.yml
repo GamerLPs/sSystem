@@ -12,3 +12,11 @@ commands:
       - gamemode
   pay:
   money:
+  clearchat:
+    aliases:
+      - cc
+      - cchat
+      - chatclear
+  message:
+    aliases:
+      - msg
