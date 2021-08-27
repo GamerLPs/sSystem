@@ -20,3 +20,6 @@ commands:
   message:
     aliases:
       - msg
+  replay:
+    aliases:
+      - r

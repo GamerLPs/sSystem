@@ -7,7 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class MoneyCommand implements CommandExecutor {
+public class MONEYCOMMAND implements CommandExecutor {
     private final String NoPlayerError = "§cDu musst diesen Command als Spieler ausführen!";
     private final String PlayerNotFoundError = "§cDer Spieler wurde nicht gefunden!";
     private final String NoPermissionError = "§cDu hast nicht genug Berechtigungen um diesen Befehl zu benutzen!";

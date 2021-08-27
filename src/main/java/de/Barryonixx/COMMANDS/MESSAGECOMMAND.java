@@ -40,8 +40,8 @@ public class MESSAGECOMMAND implements CommandExecutor {
                                 i++;
                             }
                             String message = sb.toString();
-                            p.sendMessage("SPIELER1");
-                            t.sendMessage("SPIELER2");
+                            p.sendMessage("§8| §C§LMSG§8 » §4§o" + t.getName() + ": §e§o"+msg);
+                            t.sendMessage("§8| §C§LMSG§8 » §4§o" + p.getName() + ": §e§o"+msg);
                             replay.put(t, p);
                             replay.put(p, t);
                         }else{

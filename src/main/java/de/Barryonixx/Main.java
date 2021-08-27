@@ -1,10 +1,6 @@
 package de.Barryonixx;
 
-import de.Barryonixx.COMMANDS.CLEARCHATCOMMAND;
-import de.Barryonixx.COMMANDS.GAMEMODECOMMAND;
-import de.Barryonixx.COMMANDS.PAYCOMMAND;
-import de.Barryonixx.COMMANDS.MESSAGECOMMAND;
-import de.Barryonixx.COMMANDS.WETTERCOMMAND;
+import de.Barryonixx.COMMANDS.*;
 import de.Barryonixx.vault.Vaultmanager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -20,9 +16,10 @@ public final class Main extends JavaPlugin {
         this.vaultmanager = new Vaultmanager();
 
         getCommand("message").setExecutor(new MESSAGECOMMAND());
+        getCommand("replay").setExecutor(new REPLAYCOMMAND());
         getCommand("wetter").setExecutor(new WETTERCOMMAND());
         getCommand("gamemode").setExecutor(new GAMEMODECOMMAND());
-        //getCommand("money").setExecutor(new MoneyCommand());
+        //getCommand("money").setExecutor(new MONEYCOMMAND());
         getCommand("pay").setExecutor(new PAYCOMMAND());
         getCommand("clearchat").setExecutor(new CLEARCHATCOMMAND());
 

@@ -30,7 +30,7 @@ public class PAYCOMMAND implements CommandExecutor {
         }
 
         if(target == player){
-            player.sendMessage("§cDu kannst nicht an dich selbst überweisen!");
+            player.sendMessage("§8| §e§lPAY§8 » §4§oFehler§7§o: Du kannst dir kein geld überweisen");
             return false;
         }
 
@@ -49,7 +49,7 @@ public class PAYCOMMAND implements CommandExecutor {
         }
 
         if(Vaultmanager.getMoney(player) < amount){
-            player.sendMessage("§cDu hast nicht soviel Geld!");
+            player.sendMessage("§8| §e§lPAY§8 » §4§oFehler§7§o: Du hast nicht soviel Geld!");
             return false;
         }
 
