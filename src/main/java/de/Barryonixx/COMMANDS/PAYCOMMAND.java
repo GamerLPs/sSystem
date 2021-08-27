@@ -40,8 +40,8 @@ public class PAYCOMMAND implements CommandExecutor {
         Vaultmanager.addMoney(target, amount);
         Vaultmanager.removeMoney(player, amount);
 
-        player.sendMessage("§8| §e§lPAY§8 » §7§oDu hast §a§o"+target.getName()+ "§7§o, " +amount + " $ §7§ogegeben.");
-        target.sendMessage("§8| §e§lPAY§8 » §7§oDu hast von §a§o"+ player.getName() + "§7§o, " + amount+ " $ §7§obekommen.");
+        player.sendMessage("§8| §e§lPAY§8 » §7§oDu hast §a§o"+target.getName()+ "§7§o, §a§o" +amount + "$ §7§ogegeben.");
+        target.sendMessage("§8| §e§lPAY§8 » §7§oDu hast von §a§o"+ player.getName() + "§7§o, §a§o" + amount+ "$ §7§obekommen.");
         return true;
 
     }
