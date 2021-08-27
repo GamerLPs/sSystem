@@ -1,6 +1,8 @@
 package de.Barryonixx;
 
 import de.Barryonixx.COMMANDS.GAMEMODECOMMAND;
+import de.Barryonixx.COMMANDS.MoneyCommand;
+import de.Barryonixx.COMMANDS.PayCommand;
 import de.Barryonixx.COMMANDS.WETTERCOMMAND;
 import de.Barryonixx.vault.Vaultmanager;
 import org.bukkit.Bukkit;
@@ -18,6 +20,9 @@ public final class Main extends JavaPlugin {
 
         getCommand("wetter").setExecutor(new WETTERCOMMAND());
         getCommand("gamemode").setExecutor(new GAMEMODECOMMAND());
+
+        //getCommand("money").setExecutor(new MoneyCommand());
+        getCommand("pay").setExecutor(new PayCommand());
 
         //
 
