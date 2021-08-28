@@ -5,9 +5,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class MONEYCOMMAND implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MONEYCOMMAND implements CommandExecutor, TabCompleter {
     private final String NoPlayerError = "§cDu musst diesen Command als Spieler ausführen!";
     private final String PlayerNotFoundError = "§cDer Spieler wurde nicht gefunden!";
     private final String NoPermissionError = "§cDu hast nicht genug Berechtigungen um diesen Befehl zu benutzen!";
@@ -71,5 +75,23 @@ public class MONEYCOMMAND implements CommandExecutor {
 
 
         return false;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String s, String[] args) {
+        if(!(sender instanceof Player)) return null;
+        if(args.length == 1){
+            if(((Player)sender).isOp()){
+                List<String> complets = new ArrayList<>();
+                complets.add("set");
+
+                for(Player p : Bukkit.getOnlinePlayers()){
+                    complets.add(p.getName());
+                }
+
+                return complets;
+            }
+        }
+        return null;
     }
 }
