@@ -19,7 +19,8 @@ public final class Main extends JavaPlugin {
         getCommand("replay").setExecutor(new REPLAYCOMMAND());
         getCommand("wetter").setExecutor(new WETTERCOMMAND());
         getCommand("gamemode").setExecutor(new GAMEMODECOMMAND());
-        //getCommand("money").setExecutor(new MONEYCOMMAND());
+        getCommand("money").setExecutor(new MONEYCOMMAND());
+        getCommand("money").setTabCompleter(new MONEYCOMMAND());
         getCommand("pay").setExecutor(new PAYCOMMAND());
         getCommand("clearchat").setExecutor(new CLEARCHATCOMMAND());
 
