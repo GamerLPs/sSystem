@@ -4,6 +4,7 @@ main: de.Barryonixx.Main
 api-version: 1.17
 
 commands:
+  givebackpack:
   wetter:
     aliases:
       - weather
