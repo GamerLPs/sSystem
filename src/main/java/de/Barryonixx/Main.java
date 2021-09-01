@@ -4,6 +4,7 @@ import de.Barryonixx.COMMANDS.*;
 import de.Barryonixx.backpack.BackpackListener;
 import de.Barryonixx.backpack.BackpackManager;
 import de.Barryonixx.backpack.GiveBackpack;
+import de.Barryonixx.privatechest.Chestlistener;
 import de.Barryonixx.utils.FileManager;
 import de.Barryonixx.vault.Vaultmanager;
 import org.bukkit.Bukkit;
@@ -14,6 +15,7 @@ public final class Main extends JavaPlugin {
     private static Main instance;
 
     private Vaultmanager vaultmanager;
+    private Chestlistener chestlistener;
     private FileManager fileManager;
     private BackpackManager backpackManager;
     public static String perm = "§c<§4§l✘§c> §7Keine Permission §c<§4§l✘§c>";
@@ -23,6 +25,7 @@ public final class Main extends JavaPlugin {
         instance = this;
         //COMMANDS
         this.fileManager = new FileManager();
+        this.chestlistener = new Chestlistener(); //IMPORTANT: Chestlistener erst nach Filemanager laden!
         this.backpackManager = new BackpackManager();
         this.vaultmanager = new Vaultmanager();
 
@@ -41,6 +44,7 @@ public final class Main extends JavaPlugin {
         PluginManager PM = Bukkit.getPluginManager();
         PM.registerEvents(new WETTERCOMMAND(), this);
         PM.registerEvents(new BackpackListener(), this);
+        PM.registerEvents(chestlistener, this);
 
 
         Bukkit.getConsoleSender().sendMessage("");
@@ -50,6 +54,7 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        Main.getInstance().getFileManager().saveFiles();
         backpackManager.save();
 
         Bukkit.getConsoleSender().sendMessage("");

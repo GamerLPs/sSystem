@@ -20,6 +20,8 @@ public class BackpackListener implements Listener {
 
         ItemStack s = player.getItemInHand();
 
+        if(s.getItemMeta() == null) return;
+
         if (s.getItemMeta().getDisplayName().equalsIgnoreCase(backpackName)) {
 
             Backpack backpack = Main.getInstance().getBackpackManager().getBackpack(player.getUniqueId());
