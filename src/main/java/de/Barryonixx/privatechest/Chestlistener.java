@@ -159,11 +159,9 @@ public class Chestlistener implements Listener {
                 if(newlockCount == 0){
                     lockingPlayers.remove(p.getName());
                     playerData.set("LockChest.LockingPlayers", lockingPlayers);
-                    
-                }else{
-                    playerData.set("LockChest." + p.getName() + ".BlockLockCount", newlockCount);
-                }
 
+                }
+                playerData.set("LockChest." + p.getName() + ".BlockLockCount", lockedBlocks--);
                 playerData.set("LockChest." + p.getName() + "." + i, null);
                 Main.getInstance().getFileManager().saveFiles();
                 break;
