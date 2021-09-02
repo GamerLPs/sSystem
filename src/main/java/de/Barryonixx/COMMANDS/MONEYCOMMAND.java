@@ -1,5 +1,6 @@
 package de.Barryonixx.COMMANDS;
 
+import de.Barryonixx.Main;
 import de.Barryonixx.vault.Vaultmanager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -12,11 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MONEYCOMMAND implements CommandExecutor, TabCompleter {
-    private final String NoPlayerError = "§cDu musst diesen Command als Spieler ausführen!";
-    private final String PlayerNotFoundError = "§cDer Spieler wurde nicht gefunden!";
-    private final String NoPermissionError = "§cDu hast nicht genug Berechtigungen um diesen Befehl zu benutzen!";
-    private final String SendMoneyStatus = "§aDein Kontostand beträgt §6{MONEY}";
-    private final String SendMoneyStatusOtherPlayer = "§aDer Kontostand von §6{TARGET} §abeträgt §6{TARGET.MONEY}";
+    private final String NoPlayerError = "DU BIST KEIN SPIELER";
+    private final String PlayerNotFoundError = "§8| §3§lMONEY§8 » §4§oFehler§7§o: Spieler nicht online";
+    private final String SendMoneyStatus = "§8| §3§LMONEY §8» §7§oKontostand: §a§o{MONEY}$";
+    private final String SendMoneyStatusOtherPlayer = "§8| §3§LMONEY §8» §7§oDer Kontostand von §a§o{TARGET}§7§o: §a§o{TARGET.MONEY}$";
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -32,7 +32,7 @@ public class MONEYCOMMAND implements CommandExecutor, TabCompleter {
         }
 
         if(!player.hasPermission("skylydra.money")){
-            player.sendMessage(NoPermissionError);
+            player.sendMessage(Main.perm);
             return false;
         }
 
