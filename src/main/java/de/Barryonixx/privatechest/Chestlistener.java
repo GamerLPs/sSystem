@@ -3,6 +3,7 @@ package de.Barryonixx.privatechest;
 import de.Barryonixx.Main;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.type.WallSign;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -11,24 +12,18 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.DoubleChestInventory;
 import org.yaml.snakeyaml.Yaml;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Chestlistener implements Listener {
-    private ArrayList<Block> lockedChests;
-
-    public Chestlistener(){
-        this.lockedChests = new ArrayList<>();
-
-        loadBlockedChests();
-    }
-
     @EventHandler
     public void onSignUpdate(SignChangeEvent event){
         Player player = event.getPlayer();
-
         Sign sign = (Sign) event.getBlock().getState();
 
         if(!sign.getType().name().contains("WALL_SIGN")){
@@ -36,10 +31,10 @@ public class Chestlistener implements Listener {
         }
 
         WallSign s = (WallSign) event.getBlock().getBlockData();
-
         Block attached = event.getBlock().getRelative(s.getFacing().getOppositeFace());
-
         if (!attached.getType().equals(Material.CHEST)) return;
+
+        Chest chest = (Chest) attached.getState();
 
         if(event.getLine(1) == null) return;
 
@@ -47,127 +42,102 @@ public class Chestlistener implements Listener {
 
         if(!ChatColor.stripColor(line1).equalsIgnoreCase("[PRIVAT]")) return;
 
+        if(chest.getInventory() instanceof DoubleChestInventory){
+            player.sendMessage("§cDu kannst keine Doppelkiste als Privat markieren!");
+            return;
+        }
+
         event.setLine(2, "§3" + player.getName());
-
+        Main.getInstance().getChestmanager().lockChest(player, sign.getBlock(), attached);
         player.sendMessage("§aDu hast diese Kiste als Privat markiert!");
-
-        saveLock(player, event.getBlock());
     }
+
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event){
-        removeBlockOfYaml(event.getPlayer(), event.getBlock());
-    }
+        if(event.getBlock().getType().equals(Material.CHEST)){
+            Block b = event.getBlock();
+            LockedChestBlock thisChest = null;
 
-    private void saveLock(Player player, Block b){
-        YamlConfiguration playerData = Main.getInstance().getFileManager().getPlayerData();
+            for(LockedChestBlock lockedChest : Main.getInstance().getChestmanager().getLockedChests()){
+                if(lockedChest.getChestBlock().getLocation().equals(b.getLocation())){
+                    Bukkit.broadcastMessage("FOUND");
+                    thisChest = lockedChest;
 
-        int x = b.getX();
-        int y = b.getY();
-        int z = b.getZ();
-        String worldName = b.getWorld().getName();
+                    break;
+                }
+            }
 
-        int lockBlockCount = 0;
-        List<String> lockingPlayers = new ArrayList<>();
+            if(thisChest == null) return;
 
-        if(playerData.isSet("LockChest.LockingPlayers")){
-            lockingPlayers = playerData.getStringList("LockChest.LockingPlayers");
-        }
+            Player player = event.getPlayer();
 
-        if(playerData.isSet("LockChest." + player.getName() + ".BlockLockCount")){
-            lockBlockCount = playerData.getInt("LockChest." + player.getName() + ".BlockLockCount");
-        }
+            if(!player.getName().equalsIgnoreCase(thisChest.getPlayerName())){
+                player.sendMessage("§cDu kannst die Kiste eines anderen Spielers nicht zerstören!");
+                event.setCancelled(true);
+            }else{
+                player.sendMessage("§aDu hast deine Private Kiste zerstört!");
+            }
 
-        lockBlockCount++;
+            Main.getInstance().getChestmanager().removeChest(thisChest);
 
-        if(!lockingPlayers.contains(player.getName())){
-            lockingPlayers.add(player.getName());
-        }
-
-        playerData.set("LockChest.LockingPlayers", lockingPlayers);
-
-        String s = String.valueOf(lockBlockCount);
-
-        playerData.set("LockChest." + player.getName() + ".BlockLockCount", lockBlockCount);
-        playerData.set("LockChest." + player.getName() + "." + s + ".X", x);
-        playerData.set("LockChest." + player.getName() + "." + s + ".Y", y);
-        playerData.set("LockChest." + player.getName() + "." + s + ".Z", z);
-        playerData.set("LockChest." + player.getName() + "." + s + ".World", worldName);
-
-        Main.getInstance().getFileManager().saveFiles();
-
-        this.lockedChests.add(b);
-    }
-
-    private void loadBlockedChests(){
-        YamlConfiguration playerData = Main.getInstance().getFileManager().getPlayerData();
-
-        List<String> lockingPlayers = new ArrayList<>();
-
-        if (!playerData.isSet("LockChest.LockingPlayers")) {
             return;
-        }else{
-            lockingPlayers = playerData.getStringList("LockChest.LockingPlayers");
         }
 
-        for(String s : lockingPlayers){
-            int lockBlockCountOfPlayer = playerData.getInt("LockChest." + s + ".BlockLockCount");
+        if (event.getBlock().getType().name().toLowerCase().contains("sign")) {
+            Sign sign = (Sign) event.getBlock().getState();
 
-            for(int i = 1; i < lockBlockCountOfPlayer; i++){
-                int x = playerData.getInt("LockChest." + s + "." + i + ".X");
-                int y = playerData.getInt("LockChest." + s + "." + i + ".Y");
-                int z = playerData.getInt("LockChest." + s + "." + i + ".Z");
-                World world = Bukkit.getWorld(playerData.getString("LockChest." + s + "." + i + ".World"));
+            if (sign.getLine(1).equalsIgnoreCase("[privat]") && sign.getType().name().toLowerCase().contains("wall_sign")) {
 
-                Block blocked = world.getBlockAt(new Location(world, x, y, z));
+                WallSign wallSign = (WallSign) sign.getBlockData();
+                Block attached = event.getBlock().getRelative(wallSign.getFacing().getOppositeFace());
 
-                lockedChests.add(blocked);
+                if(attached.getType().equals(Material.CHEST)){
+                    Block chestBlock = attached;
+                    Block signBlock = event.getBlock();
 
+                    LockedChestBlock thisChest = null;
+
+                    for(LockedChestBlock lockedChest : Main.getInstance().getChestmanager().getLockedChests()){
+                        if(lockedChest.getChestBlock().getLocation().equals(chestBlock.getLocation())){
+                            thisChest = lockedChest;
+                            break;
+                        }
+                    }
+
+                    if(thisChest == null){
+                        event.getPlayer().sendMessage("§cEs ist ein Fehler aufgetreten. Um die Privat-Chest zu zerstören, probiere die Kiste zu zerstören, besteht das Problem weiterhin, wende dich an den Support!");
+                        event.setCancelled(true);
+                    }
+
+                    Main.getInstance().getChestmanager().removeChest(thisChest);
+                    event.getPlayer().sendMessage("§aDiese Kiste ist nun nicht mehr als Privat markiert!");
+                    return;
+                }
             }
         }
     }
 
-    private void removeBlockOfYaml(Player p, Block b){
-        YamlConfiguration playerData = Main.getInstance().getFileManager().getPlayerData();
+    @EventHandler
+    public void onChestOpen(PlayerInteractEvent event){
+        Player player = event.getPlayer();
 
-        int x = b.getX();
-        int y = b.getY();
-        int z = b.getZ();
-        String worldName = b.getWorld().getName();
+        if (event.getClickedBlock() != null && event.getClickedBlock().getType().equals(Material.CHEST)) {
+            LockedChestBlock thisChest = null;
 
-        int lockedBlocks = playerData.getInt("LockChest." + p.getName() + ".BlockLockCount");
-
-        Bukkit.broadcastMessage("Trying " + p.getName() + " with Blocklockcount: " + lockedBlocks);
-
-        for(int i = 1; i <= lockedBlocks; i++){
-            Bukkit.broadcastMessage("ITERATION: "+ i);
-            int x2 = playerData.getInt("LockChest." + p.getName() + "." + i + ".X");
-            int y2 = playerData.getInt("LockChest." + p.getName() + "." + i + ".Y");
-            int z2 = playerData.getInt("LockChest." + p.getName() + "." + i + ".Z");
-            String worldName2 = playerData.getString("LockChest." + p.getName() + "." + i + ".World");
-
-            if (x == x2 && y == y2 && z == z2 && worldName.equalsIgnoreCase(worldName2)) {
-                Bukkit.broadcastMessage("FOUND");
-
-                int newlockCount = lockedBlocks--;
-                List<String> lockingPlayers = new ArrayList<>();
-
-                if(playerData.isSet("LockChest.LockingPlayers")){
-                    lockingPlayers = playerData.getStringList("LockChest.LockingPlayers");
+            for(LockedChestBlock lockedChest : Main.getInstance().getChestmanager().getLockedChests()){
+                if(lockedChest.getChestBlock().getLocation().equals(event.getClickedBlock().getLocation())){
+                    thisChest = lockedChest;
+                    break;
                 }
-
-                if(newlockCount == 0){
-                    lockingPlayers.remove(p.getName());
-                    playerData.set("LockChest.LockingPlayers", lockingPlayers);
-
-                }
-                playerData.set("LockChest." + p.getName() + ".BlockLockCount", lockedBlocks--);
-                playerData.set("LockChest." + p.getName() + "." + i, null);
-                Main.getInstance().getFileManager().saveFiles();
-                break;
             }
 
-        }
+            if(thisChest == null) return;
 
+            if (!thisChest.getPlayerName().equalsIgnoreCase(player.getName())) {
+                player.sendMessage("§cDu kannst die private Kiste eines anderen Spielers nicht öffnen!");
+                event.setCancelled(true);
+            }
+        }
     }
 }

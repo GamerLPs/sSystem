@@ -5,6 +5,7 @@ import de.Barryonixx.backpack.BackpackListener;
 import de.Barryonixx.backpack.BackpackManager;
 import de.Barryonixx.backpack.GiveBackpack;
 import de.Barryonixx.privatechest.Chestlistener;
+import de.Barryonixx.privatechest.Chestmanager;
 import de.Barryonixx.utils.FileManager;
 import de.Barryonixx.vault.Vaultmanager;
 import org.bukkit.Bukkit;
@@ -16,6 +17,7 @@ public final class Main extends JavaPlugin {
 
     private Vaultmanager vaultmanager;
     private Chestlistener chestlistener;
+    private Chestmanager chestmanager;
     private FileManager fileManager;
     private BackpackManager backpackManager;
     public static String perm = "§c<§4§l✘§c> §7Keine Permission §c<§4§l✘§c>";
@@ -28,6 +30,7 @@ public final class Main extends JavaPlugin {
         this.chestlistener = new Chestlistener(); //IMPORTANT: Chestlistener erst nach Filemanager laden!
         this.backpackManager = new BackpackManager();
         this.vaultmanager = new Vaultmanager();
+        this.chestmanager = new Chestmanager();
 
         getCommand("message").setExecutor(new MESSAGECOMMAND());
         getCommand("replay").setExecutor(new REPLAYCOMMAND());
@@ -54,7 +57,8 @@ public final class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        Main.getInstance().getFileManager().saveFiles();
+        this.chestmanager.save();
+        this.fileManager.saveFiles();
         backpackManager.save();
 
         Bukkit.getConsoleSender().sendMessage("");
@@ -72,5 +76,13 @@ public final class Main extends JavaPlugin {
 
     public FileManager getFileManager() {
         return fileManager;
+    }
+
+    public Chestlistener getChestlistener() {
+        return chestlistener;
+    }
+
+    public Chestmanager getChestmanager() {
+        return chestmanager;
     }
 }
