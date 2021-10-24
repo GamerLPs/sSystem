@@ -4,6 +4,8 @@ import de.Barryonixx.COMMANDS.*;
 import de.Barryonixx.backpack.BackpackListener;
 import de.Barryonixx.backpack.BackpackManager;
 import de.Barryonixx.backpack.GiveBackpack;
+import de.Barryonixx.event.Eventlistener;
+import de.Barryonixx.item.ItemManager;
 import de.Barryonixx.privatechest.Chestlistener;
 import de.Barryonixx.privatechest.Chestmanager;
 import de.Barryonixx.utils.FileManager;
@@ -17,6 +19,7 @@ public final class Main extends JavaPlugin {
 
     private Vaultmanager vaultmanager;
     private Chestlistener chestlistener;
+    private ItemManager itemManager;
     private Chestmanager chestmanager;
     private FileManager fileManager;
     private BackpackManager backpackManager;
@@ -30,6 +33,7 @@ public final class Main extends JavaPlugin {
         this.chestlistener = new Chestlistener(); //IMPORTANT: Chestlistener erst nach Filemanager laden!
         this.backpackManager = new BackpackManager();
         this.vaultmanager = new Vaultmanager();
+        this.itemManager = new ItemManager();
         this.chestmanager = new Chestmanager();
 
         getCommand("message").setExecutor(new MESSAGECOMMAND());
@@ -48,6 +52,7 @@ public final class Main extends JavaPlugin {
         PM.registerEvents(new WETTERCOMMAND(), this);
         PM.registerEvents(new BackpackListener(), this);
         PM.registerEvents(chestlistener, this);
+        PM.registerEvents(new Eventlistener(), this);
 
 
         Bukkit.getConsoleSender().sendMessage("");
@@ -84,5 +89,9 @@ public final class Main extends JavaPlugin {
 
     public Chestmanager getChestmanager() {
         return chestmanager;
+    }
+
+    public ItemManager getItemManager() {
+        return itemManager;
     }
 }
