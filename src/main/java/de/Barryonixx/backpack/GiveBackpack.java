@@ -22,8 +22,6 @@ public class GiveBackpack implements CommandExecutor {
         Player player = (Player) sender;
 
         if (sender.hasPermission("skylydra.backpackcommand")) {
-            Bukkit.broadcastMessage("t");
-
             ItemStack skull = createSkull("§e§lRucksack", true, 1, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTgyNjQxNzg2YTQyMjA4OGY3NWRjZWU3MDIwNWQ1ODA2MDBmNjlkNmFhMmY3N2QyNjc4YjU4ZDg5YjY5NzNhNiJ9fX0=", "\n", "§aÖffnet deinen Rucksack");
 
             player.getInventory().addItem(skull);
